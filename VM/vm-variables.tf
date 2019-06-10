@@ -24,9 +24,8 @@ variable "netword-ii" {
   
 }
 
-variable "disk-name" {
-  
-}
+
+
 
 
 

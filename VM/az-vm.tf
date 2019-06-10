@@ -10,23 +10,22 @@ provider "random" "k8s" {
    version = "~>2.1.0"
 }
 
-# Example Usage with Create Empty
-resource "azurerm_resource_group" "windows" {
-  name = "windows"
-  location = "West US 2"
+#Create Empty Disk.
+resource "azurerm_resource_group" "windows-rg" {
+  name = "${var.rg-name}"
+  location = "${var.location}"
 }
-resource "azurerm_managed_disk" "test" {
-  name                 = "windows-disk"
-  resource_group_name  = "${azurerm_resource_group.windows.name}"
+resource "azurerm_managed_disk" "windows-vm" {
+  name                 = "${var.disk-name}"
+  resource_group_name  = "${azurerm_resource_group.windows-rg.name}"
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "1"
+  disk_size_gb         = "${var.disk-size}"
 
   tags = {
     environment = "Windows-OS"
   }
 }
-
 
 resource "azurerm_virtual_machine" "windowsVM" {
    name = "${terick}-vm"  // required
@@ -34,9 +33,11 @@ resource "azurerm_virtual_machine" "windowsVM" {
    resource_group_name = "${azurerm_resource_group.windowsVM.name}" // required
    network_interface_ids = "${azurerm_network_interface.windowsVM.id}" // required
    vm_size = "${vmSize}" // required
+   custom_data_type = ""
 
    os_profile_windows_config { // required
-       provision_vm_agent = true //set to true since it automatically defaults to false
-
+      provision_vm_agent = true //set to true since it automatically defaults to false
+      enable_automatic_upgrades = true
+      timezone = "var.timezone" 
    }
 }
