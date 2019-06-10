@@ -13,7 +13,7 @@ resource "azurerm_managed_disk" "main" {
   resource_group_name  = "${azurerm_resource_group.main.name}"
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "${var.disk-size[var.disk-size-str]}"                                      # TODO: Convert to variable
+  disk_size_gb         = "${var.disk-size[var.disk-size-str]}"     # TODO: Convert to variable
 }
 
 # Create VNet
@@ -63,7 +63,7 @@ resource "azurerm_virtual_machine" "main" {
   location              = "${azurerm_resource_group.main.location}"
   resource_group_name   = "${azurerm_resource_group.main.name}"
   network_interface_ids = ["${azurerm_network_interface.main.id}"]
-  vm_size               = "${var.vm-size.[var.vm-size-str]}"                            # TODO: Convert to variable
+  vm_size               = "${var.vm-size.[var.vm-size-str]}"        # TODO: Convert to variable
 
   # TODO: Convert to variable
   storage_image_reference {
