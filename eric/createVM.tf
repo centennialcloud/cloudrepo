@@ -1,12 +1,12 @@
-provider "azuread" "k8s" {
+provider "azuread"  {
     version = "~>0.3.0"
 }
 
-provider "azurerm" "k8s" {
+provider "azurerm" {
     version = "~>1.28.0"
 }
 
-provider "random" "k8s" {
+provider "random" {
     version = "~>2.1.0"
 }
 
@@ -30,7 +30,7 @@ resource "azurerm_virtual_machine" "windowsVM" {
     version   = "latest" // (optional)
 
     id = // need this to specify the custom image; changing forces new resource to be created
-  }
+    }
     
     os_profile_windows_config { # required
         provision_vm_agent = true # (optional) set to true since it automatically defaults to false
