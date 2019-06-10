@@ -20,7 +20,13 @@ resource "azurerm_virtual_machine" "windowsVM" {
     storage_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    sku       = "Win2016"
+    version   = "latest" // (optional)
+
+    storage_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "Win2019"
     version   = "latest" // (optional)
 
     id = // need this to specify the custom image; changing forces new resource to be created
