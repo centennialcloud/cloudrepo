@@ -23,3 +23,13 @@ variable "location-name" {
   type    = "string"
   default = "southcentralus"
 }
+
+variable "admin-username" {
+  type    = "string"
+  default = "testadmin"
+}
+
+variable "admin-password" {
+  type    = "string"
+  default = "Password1234!"
+}
