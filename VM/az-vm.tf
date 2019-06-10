@@ -1,16 +1,3 @@
-provider "azuread" {
-   version = "~>0.3.0"
-}
-provider "azurerm" {
-   version = "~>1.28.0"
-}
-provider "azurestack" {
-  version = "=0.5.0"
-}
-provider "random" {
-   version = "~>2.1.0"
-}
-
 resource "azurerm_virtual_machine" "windowsVM" {
    name = "${var.vm-name}-vm"
    location = "${var.location}"
@@ -22,4 +9,10 @@ resource "azurerm_virtual_machine" "windowsVM" {
       enable_automatic_upgrades = true
       timezone = "${var.timezone}"
    }
+}
+resource "azurerm_virtual_machine_data_disk_attachment" "vm-disk" {
+  managed_disk_id    = "${azurerm_managed_disk.windows-disk.name}"
+  virtual_machine_id = "${azurerm_virtual_machine.windowsVM.name}"
+  lun                = "10"
+  caching            = "ReadWrite"
 }
