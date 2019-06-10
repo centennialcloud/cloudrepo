@@ -45,7 +45,7 @@ resource "azurerm_network_interface" "main" {
     name                          = "testconfiguration1"
     subnet_id                     = "${azurerm_subnet.internal.id}"
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = "${azurerm_public_ip.main.id}"
+    public_ip_address_id          = "${azurerm_public_ip.main.id}"
   }
 }
 
@@ -76,8 +76,8 @@ resource "azurerm_virtual_machine" "main" {
   # TODO: Convert to variable
   os_profile {
     computer_name  = "hostname"
-    admin_username = "testadmin"
-    admin_password = "Password1234!"
+    admin_username = "${var.admin-username}"
+    admin_password = "${var.admin-password}"
   }
 
   os_profile_linux_config {
@@ -89,6 +89,31 @@ resource "azurerm_virtual_machine" "main" {
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
+  }
+
+  provisioner "file" {
+    connection {
+      type     = "ssh"
+      user     = "${var.admin-username}"
+      password = "${var.admin-password}"
+    }
+
+    source      = "script.sh"
+    destination = "script.sh"
+  }
+
+  provisioner "remote-exec" {
+    connection {
+      type     = "ssh"
+      user     = "${var.admin-username}"
+      password = "${var.admin-password}"
+    }
+
+    inline = [
+      "touch test.txt",
+      "chmod 777 ./script.sh",
+      "./script.sh",
+    ]
   }
 }
 
