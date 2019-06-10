@@ -47,3 +47,47 @@ resource "azurerm_network_interface" "main" {
     private_ip_address_allocation = "Dynamic"
   }
 }
+
+# Create virtual machine
+# TODO: Convert hardcoded items into variables
+resource "azurerm_virtual_machine" "main" {
+  name                  = "myVirtualMachine"                        # TODO: Convert to variable
+  location              = "${azurerm_resource_group.main.location}"
+  resource_group_name   = "${azurerm_resource_group.main.name}"
+  network_interface_ids = ["${azurerm_network_interface.main.id}"]
+  vm_size               = "Standard_B1s"                            # TODO: Convert to variable
+
+  # TODO: Convert to variable
+  storage_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "16.04-LTS"
+    version   = "latest"
+  }
+
+  # TODO: Convert to variable
+  os_profile {
+    computer_name  = "hostname"
+    admin_username = "testadmin"
+    admin_password = "Password1234!"
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = false
+  }
+
+  storage_os_disk {
+    name              = "myosdisk1"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+}
+
+# Attach disk to vm
+resource "azurerm_virtual_machine_data_disk_attachment" "main" {
+  managed_disk_id    = "${azurerm_managed_disk.main.id}"
+  virtual_machine_id = "${azurerm_virtual_machine.main.id}"
+  lun                = "10"
+  caching            = "ReadWrite"
+}
