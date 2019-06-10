@@ -15,3 +15,12 @@ resource "azurerm_managed_disk" "main" {
   create_option        = "Empty"
   disk_size_gb         = "10"                                      # TODO: Convert to variable
 }
+
+# Create VNet
+# TODO: Make VNET without hardcoding it
+resource "azurerm_virtual_network" "main" {
+  name                = "my-network"
+  address_space       = ["10.0.0.0/24"]
+  location            = "${azurerm_resource_group.main.location}"
+  resource_group_name = "${azurerm_resource_group.main.name}"
+}
