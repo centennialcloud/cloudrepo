@@ -22,9 +22,10 @@ resource "azurerm_virtual_machine" "windowsVM" {
   }
   
   os_profile {
-    computer_name  = "hostname"
-    admin_username = "testadmin"
-    admin_password = "Password1234!"
+    computer_name  = "${var.vm-name}"
+    admin_username = "${var.username}"
+    admin_password = "${var.password}"
+    custom_data = ""
   }
    os_profile_windows_config { 
       provision_vm_agent = true

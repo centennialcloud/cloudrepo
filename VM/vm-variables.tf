@@ -22,6 +22,15 @@ variable "timezone" {
     type = "map"
     description = "The timezone for the windows config. East US, Central US, Pacific Time, etc."
 }
+variable "username" {
+    type = "map"
+    description = "Specifies the name of the local administrator account."
+}
+variable "password" {
+    type = "map"
+  description = "must be between 6-72 characters long and must satisfy at least 3 of password complexity requirements from the following: 1. Contains an uppercase character 2. Contains a lowercase character 3. Contains a numeric digit 4. Contains a special character"
+}
+
 
 
 
