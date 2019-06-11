@@ -1,5 +1,5 @@
 provider "azurerm" {
-     version = "=1.28.0"
+     version = "~>1.28.0"
 }
 
 resource "azurerm_resource_group" "main" {
@@ -9,6 +9,7 @@ resource "azurerm_resource_group" "main" {
 
 resource "azurerm_storage_account" "saccount" {
     name    = "${var.storage-account-name}"
+    resource_group_name = "${var.resource-group-name}"
     location = "${var.location-name}"
     account_tier = "Standard"
     account_replication_type = "LRS"
@@ -20,7 +21,21 @@ resource "azurerm_storage_container" "container" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_share" "testshare" {
+  name = "sharename"
+  resource_group_name  = "${var.resource-group-name}"
+  storage_account_name = "${var.storage-account-name}"
+  quota = 50
+}
+
 output "storageinfo" {
-  value = "${azurerm.saccount.storage_account_key}"
-  value = "${azurerm.container.container_id}"
+  value = "${azurerm_storage_account.saccount.primary_blob_endpoint}"
+}
+
+output "containerinfo" {
+  value = "${azurerm_storage_container.container.id}"
+}
+
+output "fileshareinfo" {
+    value = "${azurerm_storage_share.testshare.id}"
 }
