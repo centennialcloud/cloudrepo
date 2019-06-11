@@ -3,7 +3,7 @@ provider "azuread"  {
 }
 
 provider "azurerm" {
-    version = "(any version)"
+  version = "=1.28.0"
 }
 
 provider "random" {
@@ -15,10 +15,16 @@ provider "random" {
 // terraform import azurerm_app_service.instance1 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.Web/sites/instance1
 // for a windows container we have below that..
 
+resource "azurerm_resource_group" "main" {
+    name = "${var.resource-group-name}"
+    location = "${var.location-name}"
+ }
+
+
 resource "azurerm_app_service_plan" "WinAppPlan" {
-  name                = "${WinAppPlan}"  // (required)
-  location            = "${azurerm_resource_group.WinAppPlan.location}" // (required)
-  resource_group_name = "${azurerm_resource_group.WinAppPlan.name}" // (required)
+  name                = "${var.WinAppPlan}"  // (required)
+  location            = "${azurerm_resource_group.main.location}" // (required)
+  resource_group_name = "${azurerm_resource_group.main.name}" // (required)
 
   sku {   // (required)
     tier = "Standard" // (required)
@@ -26,10 +32,10 @@ resource "azurerm_app_service_plan" "WinAppPlan" {
   }
 }
 resource "azurerm_app_service" "WinAppService" {
-  name                = "${WinAppService}" // (required)
-  location            = "${azurerm_resource_group.WinAppService.location}" // (required)
-  resource_group_name = "${azurerm_resource_group.WinAppService.name}" // (required)
-  app_service_plan_id = "${azurerm_app_service_plan.WinAppService.id}" // (required)
+  name                = "${var.WinAppService}" // (required)
+  location            = "${azurerm_resource_group.main.location}" // (required)
+  resource_group_name = "${azurerm_resource_group.main.name}" // (required)
+  app_service_plan_id = "${azurerm_app_service_plan.WinAppPlan.id}" // (required)
 
   site_config {
     windows_version = "${var.application-setting[var.application-setting-str]}"
