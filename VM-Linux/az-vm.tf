@@ -29,6 +29,8 @@ resource "azurerm_virtual_machine" "LinuxVM" {
    resource_group_name = "${azurerm_resource_group.linux-rg.name}"
    network_interface_ids = "${azurerm_network_interface.main.name}"
    vm_size = "${var.vm-size}"
+   delete_os_disk_on_termination = true
+   delete_data_disks_on_termination = true
    
    storage_image_reference {
     publisher = "Canonical"
