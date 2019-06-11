@@ -32,7 +32,8 @@ resource "azurerm_app_service" "WinAppService" {
   app_service_plan_id = "${azurerm_app_service_plan.WinAppService.id}" // (required)
 
   site_config {
-    dotnet_framework_version = "v4.0"
+    windows_version = "${var.application-setting[var.application-setting-str]}"
+    dotnet_framework_version = "dotFrameWork"
  //   scm_type                 = "LocalGit"
   }
   }
