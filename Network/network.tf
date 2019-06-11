@@ -12,25 +12,19 @@ resource "azurerm_virtual_network" "main-network" {
   subnet {
     name                      = "${var.networkname}-publicsub"
     address_prefix            = "10.0.0.0/18"
-    network_security_group_id = "${azurerm_network_security_group.public.name}"
-
-    delegation {
-      name = "windowsdelegation"
 
       service_delegation {
         name    = "Microsoft.ContainerInstance/containerGroups"
         actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
       }
     }
-  }
 }
 
-resource "azurerm_subnet" "internal" {
+resource "azurerm_subnet" "private" {
   name                      = "${var.networkname}-privatesub"
   resource_group_name       = "${azurerm_resource_group.network-rg.name}"
   virtual_network_name      = "${azurerm_virtual_network.main-network.name}"
   address_prefix            = "10.0.1.0/22"
-  network_security_group_id = "${azurerm_network_security_group.private.name}"
 
   delegation {
     name = "windowsdelegation"
@@ -41,6 +35,14 @@ resource "azurerm_subnet" "internal" {
     }
   }
 }
+resource "azurerm_subnet_network_security_group_association" "public" {
+  subnet_id                 = "${var.networkname}-publicsub}"
+  network_security_group_id = "${azurerm_network_security_group.public.id}"
+}
+resource "azurerm_subnet_network_security_group_association" "private" {
+  subnet_id                 = "${azurerm_subnet.private.name}"
+  network_security_group_id = "${azurerm_network_security_group.private.id}"
+}
 
 resource "azurerm_network_interface" "main" {
   name                = "${var.netword-ii}"
@@ -49,7 +51,7 @@ resource "azurerm_network_interface" "main" {
 
   ip_configuration {
     name                          = "configuration1"
-    subnet_id                     = "${azurerm_subnet.internal.name}"
+    subnet_id                     = "${azurerm_subnet.private.name}"
     private_ip_address_allocation = "Dynamic"
   }
 }
