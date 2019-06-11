@@ -3,11 +3,11 @@ provider "azurerm" {
 }
 
 module "vm" {
-  source              = "./vm"
+  source              = "./ubuntu-vm"
   vm-size-str         = "B1"
   vm-image-str        = "18"
   disk-size-str       = "small"
-  resource-group-name = "somegroup"
+  resource-group-name = "somegroupss"
   location-name       = "southcentralus"
   admin-username      = "testadmin"
   admin-password      = "Password1234!"

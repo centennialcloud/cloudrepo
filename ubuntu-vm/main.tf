@@ -99,7 +99,7 @@ resource "azurerm_virtual_machine" "main" {
       password = "${var.admin-password}"
     }
 
-    source      = ".scripts/script.sh"
+    source      = "./scripts/script.sh"
     destination = "script.sh"
   }
 
