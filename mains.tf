@@ -4,6 +4,7 @@ provider "azurerm" {
 
 module "vm" {
   source              = "./ubuntu-vm"
+  vm-name             = "myvirtualmachine3"
   vm-size-str         = "B1"
   vm-image-str        = "18"
   disk-size-str       = "small"

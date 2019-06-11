@@ -9,7 +9,7 @@ variable "vm-size" {
 }
 
 variable "vm-size-str" {
-  type    = "string"
+  type = "string"
 }
 
 variable "vm-image" {
@@ -22,7 +22,7 @@ variable "vm-image" {
 }
 
 variable "vm-image-str" {
-  type    = "string"
+  type = "string"
 }
 
 variable "disk-size" {
@@ -36,24 +36,28 @@ variable "disk-size" {
 }
 
 variable "disk-size-str" {
-  type    = "string"
+  type = "string"
 }
 
 # Resource group name - Change later
 variable "resource-group-name" {
-  type    = "string"
+  type = "string"
 }
 
 variable "location-name" {
-  type    = "string"
+  type = "string"
 }
 
 variable "admin-username" {
-  type    = "string"
+  type = "string"
 }
 
 variable "admin-password" {
-  type    = "string"
+  type = "string"
+}
+
+variable "vm-name" {
+  type = "string"
 }
 
 variable "storage-account-name" {
