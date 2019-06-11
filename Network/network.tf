@@ -46,6 +46,7 @@ resource "azurerm_subnet" "public" {
     }
   }
 }
+
 resource "azurerm_subnet_network_security_group_association" "public" {
   subnet_id                 = "${azurerm_subnet.public.id}"
   network_security_group_id = "${azurerm_network_security_group.public.id}"
@@ -55,6 +56,7 @@ resource "azurerm_subnet_network_security_group_association" "private" {
   subnet_id                 = "${azurerm_subnet.private.id}"
   network_security_group_id = "${azurerm_network_security_group.private.id}"
 }
+
 resource "azurerm_network_interface" "main" {
   name                = "${var.netword-ii}"
   location            = "${var.location}"
