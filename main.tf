@@ -7,15 +7,6 @@ resource "azurerm_resource_group" "main" {
   location = "${var.location-name}"
 }
 
-resource "azurerm_managed_disk" "main" {
-  name                 = "diskName"                                # TODO: Convert to variable
-  location             = "${azurerm_resource_group.main.location}"
-  resource_group_name  = "${azurerm_resource_group.main.name}"
-  storage_account_type = "Standard_LRS"
-  create_option        = "Empty"
-  disk_size_gb         = "${var.disk-size[var.disk-size-str]}"     # TODO: Convert to variable
-}
-
 # Create VNet
 # TODO: Make VNET without hardcoding it
 resource "azurerm_virtual_network" "main" {
@@ -91,6 +82,16 @@ resource "azurerm_virtual_machine" "main" {
     managed_disk_type = "Standard_LRS"
   }
 
+  storage_data_disk {
+    name              = "diskName"
+    caching           = "ReadWrite"                           # TODO: Convert to variable
+    managed_disk_type = "Standard_LRS"
+    create_option     = "Empty"
+    lun               = "10"
+    caching           = "ReadWrite"
+    disk_size_gb      = "${var.disk-size[var.disk-size-str]}" # TODO: Convert to variable
+  }
+
   provisioner "file" {
     connection {
       type     = "ssh"
@@ -115,12 +116,4 @@ resource "azurerm_virtual_machine" "main" {
       "./script.sh",
     ]
   }
-}
-
-# Attach disk to vm
-resource "azurerm_virtual_machine_data_disk_attachment" "main" {
-  managed_disk_id    = "${azurerm_managed_disk.main.id}"
-  virtual_machine_id = "${azurerm_virtual_machine.main.id}"
-  lun                = "10"
-  caching            = "ReadWrite"
 }
