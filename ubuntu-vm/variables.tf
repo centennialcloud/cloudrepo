@@ -62,3 +62,13 @@ variable "admin-password" {
   type    = "string"
   default = "Password1234!"
 }
+
+variable "storage-account-name" {
+  type    = "string"
+  default = "storeacc784584"
+}
+
+variable "container-name" {
+  type    = "string"
+  default = "container"
+}
