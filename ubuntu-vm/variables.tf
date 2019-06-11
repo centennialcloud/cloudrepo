@@ -10,7 +10,6 @@ variable "vm-size" {
 
 variable "vm-size-str" {
   type    = "string"
-  default = "B1"
 }
 
 variable "vm-image" {
@@ -24,7 +23,6 @@ variable "vm-image" {
 
 variable "vm-image-str" {
   type    = "string"
-  default = "16"
 }
 
 variable "disk-size" {
@@ -39,28 +37,23 @@ variable "disk-size" {
 
 variable "disk-size-str" {
   type    = "string"
-  default = "small"
 }
 
 # Resource group name - Change later
 variable "resource-group-name" {
   type    = "string"
-  default = "myresourcegroup"
 }
 
 variable "location-name" {
   type    = "string"
-  default = "southcentralus"
 }
 
 variable "admin-username" {
   type    = "string"
-  default = "testadmin"
 }
 
 variable "admin-password" {
   type    = "string"
-  default = "Password1234!"
 }
 
 variable "storage-account-name" {
