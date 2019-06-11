@@ -15,16 +15,31 @@ provider "random" {
 // terraform import azurerm_app_service.instance1 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.Web/sites/instance1
 // for a windows container we have below that..
 
-resource "azurerm_app_service_plan" "plan3" {
-  name                = "api-appserviceplan-pro"  // (required)
-  location            = "${azurerm_resource_group.test.location}" // (required)
-  resource_group_name = "${azurerm_resource_group.test.name}" // (required)
-  kind                = "xenon" // (optional)
-  is_xenon            = true
+resource "azurerm_app_service_plan" "WinAppPlan" {
+  name                = "${WinAppPlan}"  // (required)
+  location            = "${azurerm_resource_group.WinAppPlan.location}" // (required)
+  resource_group_name = "${azurerm_resource_group.WinAppPlan.name}" // (required)
 
   sku {   // (required)
-    tier = "PremiumContainer" // (required)
-    size = "PC2" // (required)
-    capacity = // (optional)
+    tier = "Standard" // (required)
+    size = "S1" // (required)
   }
 }
+resource "azurerm_app_service" "WinAppService" {
+  name                = "${WinAppService}" // (required)
+  location            = "${azurerm_resource_group.WinAppService.location}" // (required)
+  resource_group_name = "${azurerm_resource_group.WinAppService.name}" // (required)
+  app_service_plan_id = "${azurerm_app_service_plan.WinAppService.id}" // (required)
+
+  site_config {
+    dotnet_framework_version = "v4.0"
+ //   scm_type                 = "LocalGit"
+  }
+  }
+
+#   connection_string { // (optional)
+#     name  = "${Database}" // (required)
+#     type  = "${SQLServer}" // (required)
+#     value = "Server=some-server.mydomain.com;Integrated Security=SSPI" // (required)
+#   }
+# }
