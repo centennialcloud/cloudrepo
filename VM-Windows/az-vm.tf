@@ -2,7 +2,7 @@ resource "azurerm_virtual_machine" "windowsVM" {
   name                             = "${var.vm-name}-vm"
   location                         = "${var.location}"
   resource_group_name              = "${azurerm_resource_group.windows-rg.name}"
-  network_interface_ids            = "${azurerm_network_interface.main.name}"
+  network_interface_ids            = ["${azurerm_network_interface.main.name}"]
   vm_size                          = "${var.vm-size}"
   delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
@@ -33,6 +33,5 @@ resource "azurerm_virtual_machine" "windowsVM" {
   os_profile_windows_config {
     provision_vm_agent        = true
     enable_automatic_upgrades = true
-    timezone                  = "${var.timezone}"
   }
 }

@@ -14,12 +14,8 @@ variable "vm-size" {
   description = "The size for the VM. Values: B, Dsv3, Dv3, DSv2, Dv2, Av2, DC"
 }
 
-variable "netword-ii" {
+variable "network-ii" {
   description = "The Network Interface ID's which should be associated with the Virtual Machine."
-}
-
-variable "timezone" {
-  description = "The timezone for the windows config. East US, Central US, Pacific Time, etc."
 }
 
 variable "username" {
