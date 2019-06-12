@@ -1,4 +1,4 @@
-resource "azurerm_monitor_action_group" "test" {
+resource "azurerm_monitor_action_group" "monitor" {
   name                = "CriticalAlertsAction"
   resource_group_name = "${azurerm_resource_group.test.name}"
   short_name          = "p0action"
