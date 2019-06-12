@@ -1,26 +1,10 @@
 resource "azurerm_monitor_action_group" "monitor" {
-  name                = "CriticalAlertsAction"
-  resource_group_name = "${azurerm_resource_group.test.name}"
-  short_name          = "p0action"
-
-  email_receiver {
-    name          = "sendtoadmin"
-    email_address = "admin@contoso.com"
-  }
-
-  email_receiver {
-    name          = "sendtodevops"
-    email_address = "devops@contoso.com"
-  }
-
+  name                = "${var.ag-name}"
+  resource_group_name = "${azurerm_resource_group.monitor-rg.name}"
+  short_name          = "${var.ag-name}-SMS"
   sms_receiver {
-    name         = "oncallmsg"
+    name         = "${var.ag-smsname}"
     country_code = "1"
-    phone_number = "1231231234"
-  }
-
-  webhook_receiver {
-    name        = "callmyapiaswell"
-    service_uri = "http://example.com/alert"
+    phone_number = "${var.ag-phone}"
   }
 }
