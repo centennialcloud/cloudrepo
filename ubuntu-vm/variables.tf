@@ -9,6 +9,7 @@ variable "vm-size" {
 }
 
 variable "vm-size-str" {
+  description = "Size of the VM. Choose from B1, B2, B3"
   type = "string"
 }
 
@@ -22,6 +23,7 @@ variable "vm-image" {
 }
 
 variable "vm-image-str" {
+  description = "Version of Ubuntu. Choose 16 or 18"
   type = "string"
 }
 
@@ -36,27 +38,32 @@ variable "disk-size" {
 }
 
 variable "disk-size-str" {
+  description = "Size of the VM. Choose small, medium, or large"
   type = "string"
 }
 
-# Resource group name - Change later
 variable "resource-group-name" {
+  description = "Name of the resource group"
   type = "string"
 }
 
 variable "location-name" {
+  description = "Location of the resource"
   type = "string"
 }
 
 variable "admin-username" {
+  description = "VM admin name"
   type = "string"
 }
 
 variable "admin-password" {
+  description = "VM admin password"
   type = "string"
 }
 
 variable "vm-name" {
+  description = "Name of the VM"
   type = "string"
 }
 
