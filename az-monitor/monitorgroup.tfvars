@@ -1,0 +1,3 @@
+variable "azmon" {
+  type = "map"
+}
