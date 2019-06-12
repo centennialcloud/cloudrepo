@@ -16,8 +16,8 @@ variable "application-setting" {
   type = "map"
 
   default = {
-    "node"   = "node|10.6"
-    "dotnet" = "aspnet|v3.5"
+    "node"   = "node|8.9"
+    "dotnet" = "aspnet|v4.7"
   }
 }
 

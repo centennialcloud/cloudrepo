@@ -1,15 +1,7 @@
-provider "azuread"  {
-    version = "~>0.3.0"
-}
 
 provider "azurerm" {
   version = "=1.28.0"
 }
-
-provider "random" {
-    version = "~>2.1.0"
-}
-
 
 
 resource "azurerm_resource_group" "main" {
@@ -35,7 +27,7 @@ resource "azurerm_app_service" "main" {
   app_service_plan_id = "${azurerm_app_service_plan.main.id}" // (required)
 
   site_config {
-    linux_fx_version = "${var.application-setting[var.application-setting-str]}"
+    windows_fx_version = "${var.application-setting[var.application-setting-str]}"
 
   }
   }
