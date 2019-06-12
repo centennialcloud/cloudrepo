@@ -10,10 +10,7 @@ provider "random" {
     version = "~>2.1.0"
 }
 
-// create app service plan then create the app service
-// we can also import the app service plan with..
-// terraform import azurerm_app_service.instance1 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.Web/sites/instance1
-// for a windows container we have below that..
+
 
 resource "azurerm_resource_group" "main" {
     name = "${var.resource-group-name}"
@@ -21,7 +18,7 @@ resource "azurerm_resource_group" "main" {
  }
 
 
-resource "azurerm_app_service_plan" "WinAppPlan" {
+resource "azurerm_app_service_plan" "main" {
   name                = "${var.WinAppPlan}"  // (required)
   location            = "${azurerm_resource_group.main.location}" // (required)
   resource_group_name = "${azurerm_resource_group.main.name}" // (required)
@@ -31,11 +28,11 @@ resource "azurerm_app_service_plan" "WinAppPlan" {
     size = "S1" // (required)
   }
 }
-resource "azurerm_app_service" "WinAppService" {
+resource "azurerm_app_service" "main" {
   name                = "${var.WinAppService}" // (required)
   location            = "${azurerm_resource_group.main.location}" // (required)
   resource_group_name = "${azurerm_resource_group.main.name}" // (required)
-  app_service_plan_id = "${azurerm_app_service_plan.WinAppPlan.id}" // (required)
+  app_service_plan_id = "${azurerm_app_service_plan.main.id}" // (required)
 
   site_config {
     windows_version = "${var.application-setting[var.application-setting-str]}"
