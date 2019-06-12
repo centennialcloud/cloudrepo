@@ -8,16 +8,14 @@ resource "azurerm_resource_group" "main" {
 }
 
 # Create VNet
-# TODO: Make VNET without hardcoding it
 resource "azurerm_virtual_network" "main" {
-  name                = "my-network"
+  name                = "${var.vm-name}-vnet"
   address_space       = ["10.0.0.0/24"]
   location            = "${azurerm_resource_group.main.location}"
   resource_group_name = "${azurerm_resource_group.main.name}"
 }
 
 #Create Subnet
-# TODO: Make Subnet without hardcoding it
 resource "azurerm_subnet" "internal" {
   name                 = "internal"
   resource_group_name  = "${azurerm_resource_group.main.name}"
@@ -26,9 +24,8 @@ resource "azurerm_subnet" "internal" {
 }
 
 # Create NIC
-# TODO: Make NIC without hardcoding it
 resource "azurerm_network_interface" "main" {
-  name                = "vm-nic"
+  name                = "${var.vm-name}-nic"
   location            = "${azurerm_resource_group.main.location}"
   resource_group_name = "${azurerm_resource_group.main.name}"
 
@@ -48,15 +45,13 @@ resource "azurerm_public_ip" "main" {
 }
 
 # Create virtual machine
-# TODO: Convert hardcoded items into variables
 resource "azurerm_virtual_machine" "main" {
-  name                  = "myVirtualMachine"                        # TODO: Convert to variable
+  name                  = "${var.vm-name}"
   location              = "${azurerm_resource_group.main.location}"
   resource_group_name   = "${azurerm_resource_group.main.name}"
   network_interface_ids = ["${azurerm_network_interface.main.id}"]
-  vm_size               = "${var.vm-size[var.vm-size-str]}"         # TODO: Convert to variable
+  vm_size               = "${var.vm-size[var.vm-size-str]}"
 
-  # TODO: Convert to variable
   storage_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
@@ -64,7 +59,6 @@ resource "azurerm_virtual_machine" "main" {
     version   = "latest"
   }
 
-  # TODO: Convert to variable
   os_profile {
     computer_name  = "hostname"
     admin_username = "${var.admin-username}"
@@ -76,20 +70,20 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   storage_os_disk {
-    name              = "myosdisk1"
+    name              = "${var.vm-name}-os-disk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
 
   storage_data_disk {
-    name              = "diskName"
-    caching           = "ReadWrite"                           # TODO: Convert to variable
+    name              = "${var.vm-name}-disk"
+    caching           = "ReadWrite"
     managed_disk_type = "Standard_LRS"
     create_option     = "Empty"
     lun               = "10"
     caching           = "ReadWrite"
-    disk_size_gb      = "${var.disk-size[var.disk-size-str]}" # TODO: Convert to variable
+    disk_size_gb      = "${var.disk-size[var.disk-size-str]}"
   }
 
   provisioner "file" {
