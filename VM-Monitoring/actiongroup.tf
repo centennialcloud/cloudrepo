@@ -1,8 +1,3 @@
-resource "azurerm_resource_group" "test" {
-  name     = "monitoring-resources"
-  location = "West US"
-}
-
 resource "azurerm_monitor_action_group" "test" {
   name                = "CriticalAlertsAction"
   resource_group_name = "${azurerm_resource_group.test.name}"

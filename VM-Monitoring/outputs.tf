@@ -1,6 +1,3 @@
-output "name" {
-  value = "value"
-}
-output "name" {
-  value = "value"
+output "id" {
+  value = "${list(autoscale,scaleset,actiongroup)}"
 }
